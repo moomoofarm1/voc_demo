@@ -1,12 +1,13 @@
-FROM continuumio/anaconda3
+FROM continuumio/anaconda3 as build
 
-WORKDIR /app
+# Set the working directory to /app (this is the default in the future)
+WORKDIR /home
 
 # Install Flask
 RUN pip install Flask
 
 # Copy the backend code
-COPY backend /app
+COPY src/backend /home
 
 # Set the flask app to run on port 5000
 ENV FLASK_APP=main.py

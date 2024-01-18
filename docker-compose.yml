@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./ # This sets the context to the local project root
+      dockerfile: ./docker/Dockerfile.backend
+    ports:
+      - "5000:5000"
+    restart: on-failure
+    volumes:
+      - .:/app
+    environment:
+      - BACKEND_ENV=development
+
+  frontend:
+    build:
+      context: ./ # This sets the context to the project root
+      dockerfile: ./docker/Dockerfile.frontend
+    ports:
+      - "3000:80"
+    restart: on-failure
+    depends_on:
+      - backend
+    volumes:
+      - .:/app
+    environment:
+      - FRONTEND_ENV=development
+
+networks:
+  default:
+    driver: bridge
